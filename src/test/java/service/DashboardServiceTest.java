@@ -54,4 +54,23 @@ class DashboardServiceTest {
         assertEquals(2L, ranking.getOrDefault("Java Avançado", -1L),
                 "Java Avançado deveria aparecer 2 vezes no ranking de CRIPTOMOEDA");
     }
+    
+    @Test
+    @DisplayName("Construtor: aceita lista null e considera coleção vazia (cobre ramo do ternário)")
+    void construtorComListaNullDeveFuncionar() {
+        var service = new DashboardServices(null);
+
+        // não deve lançar NPE e deve se comportar como coleção vazia
+        assertEquals(0L, service.contarAlunosComCriptomoeda());
+        assertTrue(service.rankingCursosPorTipo(TipoRecompensa.CRIPTOMOEDA).isEmpty());
+    }
+
+    @Test
+    @DisplayName("BDD 2 (branch null): quando tipo é null, ranking deve ser vazio (cobre guard clause)")
+    void rankingCursosPorTipoComTipoNullDeveRetornarVazio() {
+        var service = new DashboardServices(fixture());
+
+        assertTrue(service.rankingCursosPorTipo(null).isEmpty());
+    }
+
 }
