@@ -1,4 +1,4 @@
-package entidades;
+package com.gamificacaoParaEducacao.Gamificacao.para.Educacao.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
