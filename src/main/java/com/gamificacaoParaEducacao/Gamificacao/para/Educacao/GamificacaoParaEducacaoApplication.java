@@ -9,13 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan(basePackages = "com.gamificacaoParaEducacao.Gamificacao.para.Educacao.domain")
 @EnableJpaRepositories(basePackages = "com.gamificacaoParaEducacao.Gamificacao.para.Educacao.repository")
-@EntityScan(basePackages = "com.gamificacaoParaEducacao.Gamificacao.para.Educacao.domain")
-@EnableJpaRepositories(basePackages = "com.gamificacaoParaEducacao.Gamificacao.para.Educacao.repository")
 public class GamificacaoParaEducacaoApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GamificacaoParaEducacaoApplication.class, args);
-    }
     public static void main(String[] args) {
         SpringApplication.run(GamificacaoParaEducacaoApplication.class, args);
     }

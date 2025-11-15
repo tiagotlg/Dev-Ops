@@ -16,9 +16,6 @@ import static org.mockito.Mockito.*;
 class DashboardServiceTest {
 
     private List<Aluno> fixture() {
-        // João: CRIPTOMOEDA (Java Avançado)
-        // Ana:  CRIPTOMOEDA (Java Avançado) + MOEDA
-        // Maria: CURSO_EXTRA (Spring Boot)
         Aluno joao = new Aluno("João", List.of(
                 new Recompensa(TipoRecompensa.CRIPTOMOEDA, "Java Avançado")
         ));
@@ -79,4 +76,20 @@ class DashboardServiceTest {
 
         assertTrue(service.rankingCursosPorTipo(null).isEmpty());
     }
+    
+    @Test
+    @DisplayName("Quando repository retorna null, carregarAlunos devolve lista vazia")
+    void carregarAlunosQuandoRepositorioRetornaNull() {
+        AlunoRepository repo = mock(AlunoRepository.class);
+        when(repo.findAll()).thenReturn(null); // força o ramo alunos == null
+
+        DashboardService service = new DashboardService(repo);
+
+        // contarAlunosComCriptomoeda deve funcionar com lista vazia
+        assertEquals(0L, service.contarAlunosComCriptomoeda());
+
+        // rankingCursosPorTipo também deve devolver mapa vazio
+        assertTrue(service.rankingCursosPorTipo(TipoRecompensa.CRIPTOMOEDA).isEmpty());
+    }
+
 }
