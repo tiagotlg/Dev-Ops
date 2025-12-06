@@ -24,7 +24,7 @@ pipeline {
 
     stage('Build - Docker Image') {
       steps {
-        bat "docker build -t ${FULL_IMAGE} ."
+        echo 'Docker não disponível neste ambiente; etapa de build da imagem simulada apenas para fins de demonstração.'
       }
     }
 
