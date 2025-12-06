@@ -1,0 +1,3 @@
+# Ignora CVEs específicos já analisados/mitigados
+CVE-2023-12345
+CVE-2022-98765

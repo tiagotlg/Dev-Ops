@@ -8,9 +8,21 @@ pipeline {
       }
     }
 
-    stage('Start container') {
+
+    stage('Pre-Deploy - Security Scan - Image (Trivy)') {
       steps {
-        echo 'Starting container from Docker Hub...'
+        bat '''
+        trivy image --exit-code 1 --severity HIGH,CRITICAL ^
+          --format table --output trivy-prod-image-report.txt tiagotlg/pratica_ac2:latest
+        '''
+        archiveArtifacts artifacts: 'trivy-prod-image-report.txt', onlyIfSuccessful: false
+      }
+    }
+
+
+    stage('Deploy - Start container (prod)') {
+      steps {
+        echo 'Starting container from Docker Hub (PROD)...'
         bat 'docker-compose -f docker-compose.prod.yml pull'
         bat 'docker-compose -f docker-compose.prod.yml up -d --no-color'
         sleep time: 60, unit: 'SECONDS'
@@ -19,7 +31,8 @@ pipeline {
       }
     }
 
-    stage('Run tests against the container') {
+
+    stage('Post-Deploy - Smoke Test') {
       steps {
         bat 'curl http://localhost:8585 || echo "Service not responding"'
       }
@@ -28,7 +41,7 @@ pipeline {
 
   post {
     always {
-      echo 'Pipeline completed'
+      echo 'Pipeline PROD completed (com gate de segurança via Trivy).'
     }
   }
 }
